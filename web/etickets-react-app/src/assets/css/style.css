@@ -1,0 +1,162 @@
+* {
+  margin: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.page-container {
+  height: 100vh;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#content-wrap {
+  flex-grow: 1;
+}
+
+#content-wrap {
+  content: "";
+  display: block;
+}
+
+header {
+  height: 9%;
+  background-color: #258bd6;
+}
+
+.header-container {
+  margin: 0 20%;
+}
+
+#logo {
+  width: 90px;
+  height: 90px;
+  margin: 0 100px;
+}
+
+ul.menu {
+  list-style-type: none;
+  margin: 20px 0;
+  padding: 0;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.menu li {
+  float: left;
+}
+
+.menu li a,
+.menu li p {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+ul.user-options {
+  list-style-type: none;
+  margin: 0 0 20px 50px;
+  padding: 0;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.user-options li {
+  float: left;
+  margin: 0 20px;
+}
+
+.user-options button {
+  background-color: #258bd6;
+  border: 0;
+  cursor: pointer;
+}
+
+#search-icon {
+  width: 30px;
+  height: 30px;
+}
+
+#user-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 8px 15px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  font-size: small;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+footer {
+  width: 100%;
+  background-color: #0f6bac;
+  color: white;
+  text-align: center;
+  height: 150px;
+  margin-top: 4%;
+}
+
+header,
+main,
+footer {
+  flex-shrink: 0;
+}
+
+.events-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  justify-content: center;
+  grid-gap: 1%;
+  padding: 30px;
+}
+
+.event {
+  width: 90%;
+  height: fit-content;
+  padding: 5%;
+  box-shadow: 5px 5px 5px 7px #e6e6e6;
+}
+
+.event img {
+  height: 200px;
+  width: 100%;
+}
+.event img:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.event-description {
+  padding: 5%;
+}
