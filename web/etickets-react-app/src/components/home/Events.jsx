@@ -1,18 +1,11 @@
 import React from "react";
 import EventItem from "../home/EventItem";
-function Events() {
+function Events(props) {
   return (
     <div className="events-container">
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
-      <EventItem />
+      {props.eventsList.map((event, i) => (
+        <EventItem event={event} key={i} />
+      ))}
     </div>
   );
 }

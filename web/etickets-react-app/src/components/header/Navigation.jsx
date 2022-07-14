@@ -5,22 +5,22 @@ function Navigation() {
   return (
     <ul className="menu">
       <li>
-        <NavLink to={"/timesheet"} className="btn nav">
+        <NavLink to={"/"} className="btn nav">
           Concerts
         </NavLink>
       </li>
       <li>
-        <NavLink to={"/timesheet"} className="btn nav">
+        <NavLink to={"/"} className="btn nav">
           Theatre
         </NavLink>
       </li>
       <li>
-        <NavLink to={"/timesheet"} className="btn nav">
+        <NavLink to={"/"} className="btn nav">
           Sport
         </NavLink>
       </li>
       <li>
-        <NavLink to={"/timesheet"} className="btn nav">
+        <NavLink to={"/"} className="btn nav">
           Other
         </NavLink>
       </li>

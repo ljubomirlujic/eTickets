@@ -1,14 +1,19 @@
 import React from "react";
-import corba from "../../assets/img/corba.PNG";
+import { DateTimeFormater } from "../../services/DateTimeFormater";
 
-function EventItem() {
+function EventItem(props) {
+  const date = DateTimeFormater.formatDate(props.event.date);
+
   return (
     <div className="event">
-      <img src={corba} alt="JavaScript" />
+      <img
+        src={`data:image/png;base64,${props.event.image.data}`}
+        alt="Event"
+      />
       <div className="event-description">
-        <h3>Koncert Riblje Corbe</h3>
-        <h5>22. Jul 2022</h5>
-        <h5>TC Promenada - Novi Sad</h5>
+        <h4>{props.event.name}</h4>
+        <h5>{date}</h5>
+        <h5>{props.event.location}</h5>
       </div>
     </div>
   );

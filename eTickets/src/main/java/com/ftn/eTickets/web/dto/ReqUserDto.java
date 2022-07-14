@@ -1,17 +1,11 @@
-package com.ftn.eTickets.model;
+package com.ftn.eTickets.web.dto;
 
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.NoArgsConstructor;
 
 @Data
-@Document("user")
-@Builder
-public class User {
-
-    @Id
-    private String id;
+@NoArgsConstructor
+public class ReqUserDto {
 
     private String name;
     private String surname;
@@ -22,6 +16,4 @@ public class User {
     private String zipCode;
     private String phoneNumber;
     private String password;
-
-
 }

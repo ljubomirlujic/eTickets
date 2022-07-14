@@ -8,22 +8,22 @@ function Footer() {
         <ul>
           <ul className="menu">
             <li>
-              <Link to={"/timesheet"} className="btn nav">
+              <Link to={"/"} className="btn nav">
                 About us
               </Link>
             </li>
             <li>
-              <Link to={"/timesheet"} className="btn nav">
+              <Link to={"/"} className="btn nav">
                 Help
               </Link>
             </li>
             <li>
-              <Link to={"/timesheet"} className="btn nav">
+              <Link to={"/"} className="btn nav">
                 Terms of use
               </Link>
             </li>
             <li>
-              <Link to={"/timesheet"} className="btn nav">
+              <Link to={"/"} className="btn nav">
                 Privacy policy
               </Link>
             </li>

@@ -1,10 +1,10 @@
 import "../assets/css/style.css";
 import MainLayout from "../layouts/MainLayout";
-import Events from "../components/home/Events";
+import EventContainer from "../containers/EventContainer";
 function Home() {
   return (
     <MainLayout>
-      <Events />
+      <EventContainer />
     </MainLayout>
   );
 }
