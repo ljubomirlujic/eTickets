@@ -1,8 +1,11 @@
 package com.ftn.eTickets.web.controller;
 
+import com.ftn.eTickets.model.User;
 import com.ftn.eTickets.service.UserService;
 import com.ftn.eTickets.web.dto.ReqEventDto;
 import com.ftn.eTickets.web.dto.ReqUserDto;
+import com.ftn.eTickets.web.dto.RespEventDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

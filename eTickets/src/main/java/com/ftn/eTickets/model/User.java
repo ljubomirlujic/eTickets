@@ -22,6 +22,7 @@ public class User {
     private String zipCode;
     private String phoneNumber;
     private String password;
+    private EUserRole role;
 
 
 }

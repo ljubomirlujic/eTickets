@@ -1,7 +1,7 @@
 import AxiosClient from "./AxiosClient";
 
 
-const baseURL = "http://localhost:8081/api/users";
+const baseURL = "http://localhost:8080/api/users";
 
 export const UserService = {
     addUser

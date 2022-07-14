@@ -34,6 +34,7 @@ public class UserMapper {
                 .state(user.getState())
                 .phoneNumber(user.getPhoneNumber())
                 .zipCode(user.getZipCode())
+                .role(user.getRole())
                 .build();
     }
 

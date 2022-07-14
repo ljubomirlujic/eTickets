@@ -1,5 +1,6 @@
 package com.ftn.eTickets.web.dto;
 
+import com.ftn.eTickets.model.EUserRole;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,5 @@ public class RespUserDto {
     private String state;
     private String zipCode;
     private String phoneNumber;
+    private EUserRole role;
 }
