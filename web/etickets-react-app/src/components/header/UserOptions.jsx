@@ -1,51 +1,78 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import search from "../../assets/img/search-icon.svg";
 import user from "../../assets/img/user-icon.svg";
-import { Input } from "antd";
-import { useState } from "react";
 
-const { Search } = Input;
+import { useState } from "react";
+import { TokenService } from "../../services/TokenService";
+import { SettingFilled } from "@ant-design/icons";
 
 function UserOptions() {
-  const [searchStyle, setSearchStyle] = useState("search-panel-invisible");
-  const handleSearch = () => {
-    if (searchStyle === "search-panel-invisible") {
-      setSearchStyle("search-panel-visible");
-    } else {
-      setSearchStyle("search-panel-invisible");
-    }
+  const [optionsList, setOptionsList] = useState([]);
+
+  const handleLogOut = () => {
+    TokenService.removeToken();
+    setOptionsList([]);
   };
 
-  const onSearchHandler = (value) => console.log(value);
+  let key = 0;
+  const loginLink = (
+    <Link to={"/login"} key={key++}>
+      Login
+    </Link>
+  );
+  const registerLink = (
+    <Link to={"/register"} key={key++}>
+      Sing up
+    </Link>
+  );
+  const profilLink = (
+    <Link to={"/"} key={key++}>
+      Profil
+    </Link>
+  );
+  const logOutLink = (
+    <Link to={"/"} onClick={handleLogOut} key={key++}>
+      Log out
+    </Link>
+  );
+
+  let displayAdminOptions = "none";
+
+  if (TokenService.getToken()) {
+    optionsList.push(profilLink);
+    optionsList.push(logOutLink);
+    if (TokenService.getRole() == "ADMIN") {
+      displayAdminOptions = "block";
+    }
+  } else {
+    optionsList.push(loginLink);
+    optionsList.push(registerLink);
+  }
+
   return (
-    <>
-      <ul className="user-options">
-        <li>
-          <button onClick={handleSearch}>
-            <img id="search-icon" src={search} alt="search icon" />
+    <ul className="user-options">
+      <li>
+        <div className="dropdown">
+          <button className="dropbtn">
+            <img id="user-icon" src={user} alt="user icon" />
           </button>
-        </li>
-        <li>
-          <div className="dropdown">
-            <button className="dropbtn">
-              <img id="user-icon" src={user} alt="user icon" />
-            </button>
-            <div className="dropdown-content">
-              <Link to={"/login"}>Login</Link>
-              <Link to={"/register"}>Sing up</Link>
-            </div>
+          <div className="dropdown-content">
+            {optionsList.map((item) => item)}
           </div>
-        </li>
-      </ul>
-      <div className={searchStyle}>
-        <Search
-          placeholder="input search text"
-          enterButton
-          onSearch={onSearchHandler}
-        />
-      </div>
-    </>
+        </div>
+      </li>
+      <li>
+        <div className="admin-options" style={{ display: displayAdminOptions }}>
+          <SettingFilled id="settings-icon" />
+          <div className="dropdown-content">
+            <Link to={"/"}>Create event</Link>
+            <Link to={"/"}>Edit event</Link>
+            <Link to={"/"}>All charts</Link>
+            <Link to={"/"}>Create seating chart</Link>
+          </div>
+        </div>
+      </li>
+    </ul>
   );
 }
 

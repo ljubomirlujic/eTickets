@@ -11,7 +11,7 @@ function EventContainer() {
       const response = await EventService.getAllEvents();
       setEvents(response.data);
     } catch (e) {
-      console.error("Error while getting api");
+      console.error(e);
     }
   };
 

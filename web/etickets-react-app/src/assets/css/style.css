@@ -82,7 +82,7 @@ ul.user-options {
 
 .user-options li {
   float: left;
-  margin: 0 20px;
+  width: 60px;
 }
 
 .user-options button {
@@ -92,13 +92,32 @@ ul.user-options {
 }
 
 #search-icon {
-  width: 30px;
-  height: 30px;
+  position: absolute;
+  right: 30%;
+  top: 30%;
+  margin-top: 5px;
+  font-size: 25px;
+  color: white;
+  cursor: pointer;
 }
 
 #user-icon {
+  width: 25px;
+  height: 25px;
+  margin-top: 5px;
+}
+
+.admin-options {
   width: 30px;
   height: 30px;
+}
+.admin-options svg {
+  color: #f9f9f9;
+  margin-top: 5px;
+  font-size: 25px;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }
 
 .dropdown-content {
@@ -126,9 +145,20 @@ ul.user-options {
   background-color: #ddd;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content,
+.admin-options:hover .dropdown-content {
   display: block;
   visibility: initial;
+}
+
+.search-panel {
+  visibility: initial;
+  background-color: #258bd6;
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  bottom: 0;
+  animation: 1s ease-out 0s 1 slideInFromLeft;
 }
 
 .search-panel-invisible {
@@ -139,16 +169,6 @@ ul.user-options {
   height: 40px;
   bottom: 0;
   animation: 1s ease-out 0s 1 slideOutFromRight;
-}
-
-.search-panel-visible {
-  visibility: initial;
-  background-color: #258bd6;
-  position: absolute;
-  width: 100%;
-  height: 40px;
-  bottom: 0;
-  animation: 1s ease-out 0s 1 slideInFromLeft;
 }
 
 .ant-input-search {
@@ -210,7 +230,7 @@ footer {
 
 .register-form {
   width: 30%;
-  margin: 1% auto 2% auto;
+  margin: 2% auto 2% auto;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -244,6 +264,11 @@ footer {
   margin-left: 20px;
 }
 
+#authentication-h4 {
+  position: absolute;
+  left: 40%;
+}
+
 /* ----------responsive media quieries----------- */
 @media only screen and (max-width: 1480px) {
   .header-container {
@@ -271,7 +296,7 @@ footer {
 
 @media only screen and (max-width: 1100px) {
   ul.user-options {
-    right: 0;
+    right: 13%;
   }
   #logo {
     left: 20%;

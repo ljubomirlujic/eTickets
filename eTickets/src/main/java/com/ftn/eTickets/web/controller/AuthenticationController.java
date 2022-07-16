@@ -21,7 +21,7 @@ import javax.annotation.security.PermitAll;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/login")
 public class AuthenticationController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class AuthenticationController {
     @Autowired
     private TokenUtils tokenUtils;
 
-    @PostMapping("/login")
+    @PostMapping
     public ResponseEntity<String> login(@RequestBody JwtAuthenticationRequest userDto) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword());
