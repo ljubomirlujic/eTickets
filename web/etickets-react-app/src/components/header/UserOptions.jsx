@@ -41,7 +41,7 @@ function UserOptions() {
   if (TokenService.getToken()) {
     optionsList.push(profilLink);
     optionsList.push(logOutLink);
-    if (TokenService.getRole() == "ADMIN") {
+    if (TokenService.getRole() === "ADMIN") {
       displayAdminOptions = "block";
     }
   } else {
@@ -67,8 +67,8 @@ function UserOptions() {
           <div className="dropdown-content">
             <Link to={"/"}>Create event</Link>
             <Link to={"/"}>Edit event</Link>
-            <Link to={"/"}>All charts</Link>
-            <Link to={"/"}>Create seating chart</Link>
+            <Link to={"/chartList"}>All charts</Link>
+            <Link to={"/chartDesigner"}>Create seating chart</Link>
           </div>
         </div>
       </li>

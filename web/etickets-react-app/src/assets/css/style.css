@@ -269,6 +269,39 @@ footer {
   left: 40%;
 }
 
+/* -------chart designer---------- */
+#chart {
+  height: 650px;
+}
+
+/* -----all Charts----- */
+.charts-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  justify-content: center;
+  grid-gap: 1%;
+  padding: 15px;
+}
+
+.chartItem {
+  width: 200px;
+  height: 300px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  text-align: center;
+}
+
+.chartItem img {
+  height: 200px;
+  width: 100%;
+}
+
+#archiveBtn {
+  background-color: #d0342c;
+  color: white;
+  border: #d0342c;
+}
+
 /* ----------responsive media quieries----------- */
 @media only screen and (max-width: 1480px) {
   .header-container {

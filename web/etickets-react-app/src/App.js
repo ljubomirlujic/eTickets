@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import ChartDesigner from './pages/ChartDesigner';
+import ChartList from './pages/ChartList';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
+        <Route exact path="/chartDesigner" element={<ChartDesigner />} />
+        <Route exact path="/chartList" element={<ChartList />} />
       </Routes>
     </BrowserRouter>
   );
