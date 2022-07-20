@@ -4,8 +4,10 @@ import com.ftn.eTickets.model.Event;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface EventRepository extends MongoRepository<Event, String> {
 
-    Event findFirstByEventKey(String eventKey);
+    Optional<Event> findFirstByEventKey(String eventKey);
 }

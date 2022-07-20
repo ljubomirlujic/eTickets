@@ -26,8 +26,8 @@ public class EventService {
         return EventMapper.toRespDtoList(events);
     }
 
-    public RespEventDto findOne(String id) {
-        Optional<Event> event = eventRepository.findById(id);
+    public RespEventDto findOne(String eventKey) {
+        Optional<Event> event = eventRepository.findFirstByEventKey(eventKey);
 
         return EventMapper.toRespDto(event.orElse(null));
     }

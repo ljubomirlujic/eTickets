@@ -1,25 +1,42 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import Events from "../components/home/Events";
+import { useEffect } from "react";
+import { useState } from "react";
+import EventView from "../components/event/EventView";
 import { EventService } from "../services/EventService";
 
-function EventContainer() {
-  const [events, setEvents] = useState([]);
+const defaultEvent = {
+  id: "",
+  name: "",
+  date: "",
+  location: "",
+  image: {
+    type: 0,
+    data: "",
+  },
+  categories: {},
+  eventKey: "",
+};
 
-  const fetchEvents = async () => {
+function EventContainer() {
+  const [event, setEvent] = useState(defaultEvent);
+
+  const url = window.location.search;
+  const params = new URLSearchParams(url);
+  const eventKey = params.get("eventKey");
+
+  const fetchEvent = async (eventKey) => {
     try {
-      const response = await EventService.getAllEvents();
-      setEvents(response.data);
+      const response = await EventService.getOne(eventKey);
+      setEvent(response.data);
     } catch (e) {
       console.error(e);
     }
   };
 
   useEffect(() => {
-    fetchEvents();
+    fetchEvent(eventKey);
   }, []);
-
-  return <Events eventsList={events} />;
+  return <EventView event={event} />;
 }
 
 export default EventContainer;

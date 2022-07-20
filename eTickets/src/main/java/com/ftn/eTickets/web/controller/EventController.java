@@ -29,9 +29,9 @@ public class EventController {
 
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity getOne(@PathVariable String id){
-        RespEventDto responseEvent = eventService.findOne(id);
+    @GetMapping(value = "/{eventKey}")
+    public ResponseEntity getOne(@PathVariable String eventKey){
+        RespEventDto responseEvent = eventService.findOne(eventKey);
         if(responseEvent == null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }else {
