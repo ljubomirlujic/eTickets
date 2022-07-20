@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import ChartDesigner from './pages/ChartDesigner';
 import ChartList from './pages/ChartList';
+import CreateEvent from './pages/CreateEvent'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/chartDesigner" element={<ChartDesigner />} />
         <Route exact path="/chartList" element={<ChartList />} />
+        <Route exact path="/createEvent" element={<CreateEvent />} />
       </Routes>
     </BrowserRouter>
   );

@@ -65,9 +65,8 @@ function UserOptions() {
         <div className="admin-options" style={{ display: displayAdminOptions }}>
           <SettingFilled id="settings-icon" />
           <div className="dropdown-content">
-            <Link to={"/"}>Create event</Link>
+            <Link to={"/chartList"}>Create event</Link>
             <Link to={"/"}>Edit event</Link>
-            <Link to={"/chartList"}>All charts</Link>
             <Link to={"/chartDesigner"}>Create seating chart</Link>
           </div>
         </div>

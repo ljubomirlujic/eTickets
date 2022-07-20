@@ -5,13 +5,18 @@ const baseURL = "http://localhost:8080/api/charts";
 
 export const ChartService = {
     getAllCharts,
-    archiveChart
+    archiveChart,
+    getChartCategories
 
 }
 
 
 async function getAllCharts() {
     return await AxiosClient.get(baseURL);
+}
+
+async function getChartCategories(chartkey) {
+    return await AxiosClient.get(baseURL + `/categories/${chartkey}`);
 }
 
 async function archiveChart(chartKey) {

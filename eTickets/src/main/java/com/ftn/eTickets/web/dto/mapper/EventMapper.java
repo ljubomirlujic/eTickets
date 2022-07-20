@@ -18,6 +18,8 @@ public class EventMapper {
                 .date(requestDto.getDate())
                 .location(requestDto.getLocation())
                 .image(new Binary(requestDto.getImage()))
+                .type(requestDto.getType())
+                .categories(requestDto.getCategories())
                 .build();
     }
 
@@ -31,6 +33,7 @@ public class EventMapper {
                 .date(event.getDate())
                 .location(event.getLocation())
                 .image(event.getImage())
+                .categories(event.getCategories())
                 .eventKey(event.getEventKey())
                 .build();
     }

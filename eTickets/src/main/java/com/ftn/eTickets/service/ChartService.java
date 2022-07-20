@@ -7,6 +7,7 @@ import seatsio.SeatsioClient;
 import seatsio.charts.Chart;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,6 +17,12 @@ public class ChartService {
 
     public List<Chart> getAll(){
         return client.charts.listAll().collect(Collectors.toList());
+    }
+
+    public Object getChartCategories(String chartKey){
+        Map drawing = client.charts.retrievePublishedVersion(chartKey);
+        Object categories = drawing.get("categories");
+        return categories;
     }
 
     public void archiveChart(String chartKey){

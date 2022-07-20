@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import seatsio.charts.Chart;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin
@@ -23,6 +25,14 @@ public class ChartController {
     public ResponseEntity getAll(){
         List<Chart> charts =  chartService.getAll();
         return new ResponseEntity(charts, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/categories/{chartKey}")
+    public ResponseEntity getChartCategories(@PathVariable String chartKey) {
+        Object response = chartService.getChartCategories(chartKey);
+
+        return new ResponseEntity(response, HttpStatus.OK);
 
     }
 

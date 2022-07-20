@@ -6,7 +6,7 @@ function SearchComponent() {
   const [searchClass, setSearchClass] = useState("search-panel-invisible");
 
   const handleSearchCLass = () => {
-    if (searchClass == "search-panel") {
+    if (searchClass === "search-panel") {
       setSearchClass("search-panel-invisible");
     } else {
       setSearchClass("search-panel");

@@ -284,6 +284,7 @@ footer {
 }
 
 .chartItem {
+  position: relative;
   width: 200px;
   height: 300px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
@@ -296,10 +297,57 @@ footer {
   width: 100%;
 }
 
+.textOverImage-container {
+  height: 180px;
+  width: 100%;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.textOverImage-container svg {
+  width: 30px;
+  height: 30px;
+  color: #0f6bac;
+}
+
+.textOverImage-container .text {
+  display: none;
+  position: absolute;
+  height: 180px;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  background-color: hsla(60, 1%, 83%, 0.75);
+}
+
+.text h2 {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.text #plusIcon {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.textOverImage-container:hover .text {
+  display: block;
+}
+
 #archiveBtn {
-  background-color: #d0342c;
+  background-color: #fab400;
   color: white;
-  border: #d0342c;
+  border: #fab400;
 }
 
 /* ----------responsive media quieries----------- */
