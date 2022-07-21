@@ -2,9 +2,11 @@ import React from "react";
 import { SeatsioSeatingChart } from "@seatsio/seatsio-react";
 import TicketItem from "./TicketItem";
 import { useState } from "react";
+import { useEffect } from "react";
 
 function EventChart(props) {
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [prices, setPrices] = useState([]);
 
   const handleSelected = (ticket) => {
     setSelectedSeats((selectedSeats) => [...selectedSeats, ticket]);
@@ -15,6 +17,20 @@ function EventChart(props) {
       selectedSeats.filter((object) => object.label !== ticket.label)
     );
   };
+
+  const priceFormatter = () => {
+    let prices = [];
+    Object.entries(props.event.categories).forEach(([key, value]) => {
+      let price = { category: key, price: value };
+      prices.push(price);
+    });
+    setPrices(prices);
+  };
+
+  useEffect(() => {
+    priceFormatter();
+  }, [props.event]);
+
   return props.checked == false ? (
     <></>
   ) : (
@@ -23,8 +39,8 @@ function EventChart(props) {
         <SeatsioSeatingChart
           workspaceKey="707052d1-8e7e-4755-8920-78d71c57ccea"
           event={props.event.eventKey}
-          pricing={""}
-          priceFormatter={(price) => "rsd" + price}
+          pricing={prices}
+          priceFormatter={(price) => `${price} rsd`}
           region="eu"
           session="continue"
           divId="chart"

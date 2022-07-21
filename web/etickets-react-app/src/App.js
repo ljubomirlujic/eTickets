@@ -1,5 +1,5 @@
 import './App.css';
-import "antd/dist/antd.css";
+import 'antd/dist/antd.min.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Register from './pages/Register';
@@ -8,6 +8,7 @@ import ChartDesigner from './pages/ChartDesigner';
 import ChartList from './pages/ChartList';
 import CreateEvent from './pages/CreateEvent'
 import Event from './pages/Event';
+import EditEvent from './pages/EditEvent';
 
 function App() {
   return (
@@ -19,8 +20,9 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/chartDesigner" element={<ChartDesigner />} />
         <Route exact path="/chartList" element={<ChartList />} />
-        <Route exact path="/createEvent" element={<CreateEvent />} />
         <Route exact path="/event" element={<Event />} />
+        <Route exact path="/createEvent" element={<CreateEvent />} />
+        <Route exact path="/editEvent" element={<EditEvent />} />
       </Routes>
     </BrowserRouter>
   );

@@ -66,7 +66,7 @@ function UserOptions() {
           <SettingFilled id="settings-icon" />
           <div className="dropdown-content">
             <Link to={"/chartList"}>Create event</Link>
-            <Link to={"/"}>Edit event</Link>
+            <Link to={"/eventManager"}>Event manager</Link>
             <Link to={"/chartDesigner"}>Create seating chart</Link>
           </div>
         </div>

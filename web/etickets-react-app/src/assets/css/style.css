@@ -215,19 +215,45 @@ footer {
 
 .event {
   width: 200px;
-  height: 300px;
+  height: fit-content;
   padding: 5%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   border-radius: 3px;
 }
 
 .event img {
-  height: 200px;
+  height: 150px;
   width: 100%;
 }
 .event img:hover {
   opacity: 0.7;
   cursor: pointer;
+}
+
+.event-description .event-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.event-buttons #editBtn {
+  width: 35%;
+  margin-right: 10px;
+  margin-left: 10%;
+  background-color: #fab400;
+  color: white;
+}
+.event-buttons #deleteBtn {
+  width: 45%;
+  background-color: rgb(233, 27, 27);
+  color: white;
+}
+
+#editBtn:hover {
+  border-color: #e4a504;
+}
+
+#deleteBtn:hover {
+  border-color: rgb(231, 15, 15);
 }
 /* ----------register----------- */
 
@@ -477,7 +503,7 @@ footer {
   width: 94%;
   height: 25%;
   margin: 3%;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .cardWrap {
@@ -485,6 +511,7 @@ footer {
   height: 100%;
   color: #fff;
   font-family: sans-serif;
+  border-radius: 10px;
 }
 
 .card {
