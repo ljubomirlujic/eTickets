@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @CrossOrigin
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity createUser(@RequestBody ReqUserDto requestDto){
+    public ResponseEntity createUser(@Valid @RequestBody ReqUserDto requestDto){
 
         String id = userService.create(requestDto);
         URI location = ServletUriComponentsBuilder

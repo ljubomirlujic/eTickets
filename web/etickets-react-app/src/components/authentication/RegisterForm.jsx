@@ -48,7 +48,7 @@ function RegisterForm(props) {
             rules={[
               {
                 required: true,
-                message: "Please input your name!",
+                message: "Please enter your name!",
               },
             ]}
           >
@@ -60,7 +60,7 @@ function RegisterForm(props) {
             rules={[
               {
                 required: true,
-                message: "Please input your surname!",
+                message: "Please enter your surname!",
               },
             ]}
           >
@@ -72,66 +72,12 @@ function RegisterForm(props) {
             rules={[
               {
                 required: true,
-                message: "Please input your email!",
+                type: "email",
+                message: "Please enter the correct email",
               },
             ]}
           >
             <Input onChange={(event) => handleChange(event, "email")} />
-          </Form.Item>
-          <Form.Item
-            label="Address"
-            name="address"
-            rules={[
-              {
-                message: "Please input your address",
-              },
-            ]}
-          >
-            <Input onChange={(event) => handleChange(event, "address")} />
-          </Form.Item>
-          <Form.Item
-            label="City"
-            name="city"
-            rules={[
-              {
-                message: "Please input your city",
-              },
-            ]}
-          >
-            <Input onChange={(event) => handleChange(event, "city")} />
-          </Form.Item>
-          <Form.Item
-            label="State"
-            name="state"
-            rules={[
-              {
-                message: "Please input your state",
-              },
-            ]}
-          >
-            <Input onChange={(event) => handleChange(event, "state")} />
-          </Form.Item>
-          <Form.Item
-            label="Zip code"
-            name="zipCode"
-            rules={[
-              {
-                message: "Please input your Zip code",
-              },
-            ]}
-          >
-            <Input onChange={(event) => handleChange(event, "zipCode")} />
-          </Form.Item>
-          <Form.Item
-            label="Phone number"
-            name="phoneNumber"
-            rules={[
-              {
-                message: "Please input your phone number",
-              },
-            ]}
-          >
-            <Input onChange={(event) => handleChange(event, "phoneNumber")} />
           </Form.Item>
           <Form.Item
             label="Password"
@@ -139,13 +85,29 @@ function RegisterForm(props) {
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Please enter your password!",
               },
             ]}
           >
             <Input.Password
               onChange={(event) => handleChange(event, "password")}
             />
+          </Form.Item>
+          <Form.Item label="Address" name="address">
+            <Input onChange={(event) => handleChange(event, "address")} />
+          </Form.Item>
+
+          <Form.Item label="City" name="city">
+            <Input onChange={(event) => handleChange(event, "city")} />
+          </Form.Item>
+          <Form.Item label="State" name="state">
+            <Input onChange={(event) => handleChange(event, "state")} />
+          </Form.Item>
+          <Form.Item label="Zip code" name="zipCode">
+            <Input onChange={(event) => handleChange(event, "zipCode")} />
+          </Form.Item>
+          <Form.Item label="Phone number" name="phoneNumber">
+            <Input onChange={(event) => handleChange(event, "phoneNumber")} />
           </Form.Item>
 
           <button type="submit" id="submitBtn">

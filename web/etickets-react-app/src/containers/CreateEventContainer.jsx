@@ -1,7 +1,7 @@
 import { message } from "antd";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import CreateForm from "../components/event/CreateForm";
+import EventForm from "../components/event/EventForm";
 import { ChartService } from "../services/ChartService";
 import { EventService } from "../services/EventService";
 
@@ -38,7 +38,13 @@ function CreateEventContainer() {
   useEffect(() => {
     fetchChartCategories(chartKey);
   }, [chartKey]);
-  return <CreateForm categories={categories} createEvent={createEvent} />;
+  return (
+    <EventForm
+      categories={categories}
+      handleForm={createEvent}
+      title={"Create Event"}
+    />
+  );
 }
 
 export default CreateEventContainer;

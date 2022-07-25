@@ -10,7 +10,7 @@ function RegisterContainer() {
       await UserService.addUser(user);
       navigate("/login");
     } catch (e) {
-      console.error("Error while getting api");
+      console.log(e);
     }
   };
 

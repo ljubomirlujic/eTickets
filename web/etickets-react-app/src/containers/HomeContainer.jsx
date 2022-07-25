@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+
 import Events from "../components/home/Events";
 import { EventService } from "../services/EventService";
 
@@ -15,11 +16,20 @@ function HomeContainer() {
     }
   };
 
+  const deleteEvent = async (id) => {
+    try {
+      await EventService.deleteEvent(id);
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     fetchEvents();
   }, []);
 
-  return <Events eventsList={events} />;
+  return <Events eventsList={events} deleteEvent={deleteEvent} />;
 }
 
 export default HomeContainer;

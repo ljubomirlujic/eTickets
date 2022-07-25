@@ -8,7 +8,7 @@ function Events(props) {
       </h1>
       <div className="events-container">
         {props.eventsList.map((event, i) => (
-          <EventItem event={event} key={i} />
+          <EventItem event={event} key={i} deleteEvent={props.deleteEvent} />
         ))}
       </div>
     </>

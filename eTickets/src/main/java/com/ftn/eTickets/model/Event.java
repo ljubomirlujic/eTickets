@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,6 @@ public class Event {
     private String location;
     private Binary image;
     private EEventType type;
-    private Map<String, Long> categories;
+    private List<Category> categories;
     private String eventKey;
 }

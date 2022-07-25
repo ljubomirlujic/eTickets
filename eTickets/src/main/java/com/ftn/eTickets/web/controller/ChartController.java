@@ -3,6 +3,7 @@ package com.ftn.eTickets.web.controller;
 import com.ftn.eTickets.service.ChartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import seatsio.charts.Chart;
 
@@ -21,13 +22,14 @@ public class ChartController {
         this.chartService = chartService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity getAll(){
         List<Chart> charts =  chartService.getAll();
         return new ResponseEntity(charts, HttpStatus.OK);
 
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/categories/{chartKey}")
     public ResponseEntity getChartCategories(@PathVariable String chartKey) {
         Object response = chartService.getChartCategories(chartKey);
@@ -35,7 +37,7 @@ public class ChartController {
         return new ResponseEntity(response, HttpStatus.OK);
 
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/archive/{chartKey}")
     public ResponseEntity archiveChart(@PathVariable String chartKey){
         chartService.archiveChart(chartKey);

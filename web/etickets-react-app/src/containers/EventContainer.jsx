@@ -22,11 +22,11 @@ function EventContainer() {
 
   const url = window.location.search;
   const params = new URLSearchParams(url);
-  const eventKey = params.get("eventKey");
+  const eventId = params.get("eventId");
 
-  const fetchEvent = async (eventKey) => {
+  const fetchEvent = async (eventId) => {
     try {
-      const response = await EventService.getOne(eventKey);
+      const response = await EventService.getOne(eventId);
       setEvent(response.data);
     } catch (e) {
       console.error(e);
@@ -34,8 +34,8 @@ function EventContainer() {
   };
 
   useEffect(() => {
-    fetchEvent(eventKey);
-  }, []);
+    fetchEvent(eventId);
+  }, [eventId]);
   return <EventView event={event} />;
 }
 
