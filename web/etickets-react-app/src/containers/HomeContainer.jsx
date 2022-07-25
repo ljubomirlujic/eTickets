@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import Events from "../components/home/Events";
 import { EventService } from "../services/EventService";
@@ -7,9 +8,14 @@ import { EventService } from "../services/EventService";
 function HomeContainer() {
   const [events, setEvents] = useState([]);
 
-  const fetchEvents = async () => {
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+  const param = params.get("eventType");
+
+  const fetchEvents = async (eventType) => {
     try {
-      const response = await EventService.getAllEvents();
+      const response = await EventService.getAllEvents(eventType);
       setEvents(response.data);
     } catch (e) {
       console.error(e);
@@ -26,8 +32,8 @@ function HomeContainer() {
   };
 
   useEffect(() => {
-    fetchEvents();
-  }, []);
+    fetchEvents(param);
+  }, [location.search]);
 
   return <Events eventsList={events} deleteEvent={deleteEvent} />;
 }

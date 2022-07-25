@@ -5,7 +5,6 @@ import { useState } from "react";
 
 function EventChart(props) {
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [prices, setPrices] = useState([]);
 
   const handleSelected = (ticket) => {
     setSelectedSeats((selectedSeats) => [...selectedSeats, ticket]);

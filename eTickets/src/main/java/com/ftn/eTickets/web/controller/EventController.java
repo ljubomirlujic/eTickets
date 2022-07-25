@@ -29,8 +29,8 @@ public class EventController {
     }
 
     @GetMapping
-    public ResponseEntity getAll(){
-        List<RespEventDto> responseEvents = eventService.findAll();
+    public ResponseEntity getAll(@RequestParam(name = "eventType", required = false, defaultValue = "")String eventType){
+        List<RespEventDto> responseEvents = eventService.findAll(eventType);
         return new ResponseEntity(responseEvents, HttpStatus.OK);
 
     }

@@ -12,8 +12,8 @@ export const EventService = {
 
 }
 
-async function getAllEvents() {
-    return await AxiosClient.get(baseURL);
+async function getAllEvents(eventType) {
+    return await AxiosClient.get(baseURL + `?eventType=${eventType}`);
 }
 
 async function getOne(id) {

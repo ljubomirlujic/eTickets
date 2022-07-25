@@ -2,15 +2,18 @@ package com.ftn.eTickets.service;
 
 import com.ftn.eTickets.exceptions.BadRequestException;
 import com.ftn.eTickets.exceptions.NotFoundException;
+import com.ftn.eTickets.model.EEventType;
 import com.ftn.eTickets.model.Event;
 import com.ftn.eTickets.repository.EventRepository;
 import com.ftn.eTickets.web.dto.ReqEventDto;
 import com.ftn.eTickets.web.dto.RespEventDto;
 import com.ftn.eTickets.web.dto.mapper.EventMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import seatsio.Region;
 import seatsio.SeatsioClient;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,8 +29,15 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public List<RespEventDto> findAll() {
-        List<Event> events = eventRepository.findAll();
+    public List<RespEventDto> findAll(String selectedType) {
+        List<Event> events;
+
+        EEventType type = getEventType(selectedType);
+        if(type == null){
+            events = eventRepository.findByOrderByDateAsc();
+        }else{
+            events = eventRepository.findByTypeOrderByDateAsc(type);
+        }
         return EventMapper.toRespDtoList(events);
     }
 
@@ -65,6 +75,15 @@ public class EventService {
         client.events.delete(event.getEventKey());
         eventRepository.delete(event);
         return true;
+    }
+
+    private EEventType getEventType(String selectedType){
+        try{
+            EEventType type = EEventType.valueOf(selectedType);
+            return type;
+        }catch (IllegalArgumentException e){
+            return null;
+        }
     }
 
 

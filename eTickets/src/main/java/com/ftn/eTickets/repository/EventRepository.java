@@ -1,13 +1,16 @@
 package com.ftn.eTickets.repository;
 
+import com.ftn.eTickets.model.EEventType;
 import com.ftn.eTickets.model.Event;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface EventRepository extends MongoRepository<Event, String> {
 
-    Optional<Event> findFirstByEventKey(String eventKey);
+    List<Event> findByOrderByDateAsc();
+
+    List<Event> findByTypeOrderByDateAsc(EEventType type);
 }

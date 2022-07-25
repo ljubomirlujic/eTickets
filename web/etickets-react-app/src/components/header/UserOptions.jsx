@@ -5,10 +5,11 @@ import user from "../../assets/img/user-icon.svg";
 import { useState } from "react";
 import { TokenService } from "../../services/TokenService";
 import { SettingFilled } from "@ant-design/icons";
+import { useEffect } from "react";
 
 function UserOptions() {
   const [optionsList, setOptionsList] = useState([]);
-
+  const [displayAdminOptions, setDisplayAdminOptions] = useState("none");
   const handleLogOut = () => {
     TokenService.removeToken();
     setOptionsList([]);
@@ -36,18 +37,22 @@ function UserOptions() {
     </Link>
   );
 
-  let displayAdminOptions = "none";
-
-  if (TokenService.getToken()) {
-    optionsList.push(profilLink);
-    optionsList.push(logOutLink);
-    if (TokenService.getRole() === "ADMIN") {
-      displayAdminOptions = "block";
+  useEffect(() => {
+    if (TokenService.getToken()) {
+      const options = [];
+      options.push(profilLink);
+      options.push(logOutLink);
+      setOptionsList(options);
+      if (TokenService.getRole() === "ADMIN") {
+        setDisplayAdminOptions("block");
+      }
+    } else {
+      const options = [];
+      options.push(loginLink);
+      options.push(registerLink);
+      setOptionsList(options);
     }
-  } else {
-    optionsList.push(loginLink);
-    optionsList.push(registerLink);
-  }
+  }, []);
 
   return (
     <ul className="user-options">

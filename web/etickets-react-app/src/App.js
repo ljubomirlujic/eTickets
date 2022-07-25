@@ -16,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate replace to="/home" />} />
         <Route exact path="/home" element={<Home />} />
+        <Route exact path="/events" element={<Home />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/chartDesigner" element={<ChartDesigner />} />
