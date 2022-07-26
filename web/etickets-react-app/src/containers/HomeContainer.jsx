@@ -12,10 +12,11 @@ function HomeContainer() {
 
   const params = new URLSearchParams(location.search);
   const param = params.get("eventType");
+  const searchParam = params.get("searchParam");
 
-  const fetchEvents = async (eventType) => {
+  const fetchEvents = async (eventType, searchParam) => {
     try {
-      const response = await EventService.getAllEvents(eventType);
+      const response = await EventService.getAllEvents(eventType, searchParam);
       setEvents(response.data);
     } catch (e) {
       console.error(e);
@@ -32,7 +33,10 @@ function HomeContainer() {
   };
 
   useEffect(() => {
-    fetchEvents(param);
+    fetchEvents(
+      param === null ? "" : param,
+      searchParam === null ? "" : searchParam
+    );
   }, [location.search]);
 
   return <Events eventsList={events} deleteEvent={deleteEvent} />;

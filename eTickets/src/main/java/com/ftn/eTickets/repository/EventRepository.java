@@ -13,4 +13,9 @@ public interface EventRepository extends MongoRepository<Event, String> {
     List<Event> findByOrderByDateAsc();
 
     List<Event> findByTypeOrderByDateAsc(EEventType type);
+
+    List<Event> findByNameContainingIgnoreCaseOrderByDateAsc(String searchParam);
+
+    List<Event> findByNameContainingIgnoreCaseAndTypeOrderByDateAsc(String searchParam, EEventType type);
+
 }

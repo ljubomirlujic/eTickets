@@ -1,12 +1,20 @@
 import React from "react";
 import { Input } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const { Search } = Input;
 
 function SearchInput(props) {
+  const navigate = useNavigate();
+
+  const onSearch = (value) => navigate(`/events?searchParam=${value}`);
   return (
     <div className={props.searchClass}>
-      <Search placeholder="input search text" enterButton />
+      <Search
+        placeholder="input event name for search"
+        enterButton
+        onSearch={onSearch}
+      />
     </div>
   );
 }

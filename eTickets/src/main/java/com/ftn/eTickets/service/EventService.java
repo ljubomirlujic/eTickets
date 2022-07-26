@@ -29,16 +29,24 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public List<RespEventDto> findAll(String selectedType) {
+    public List<RespEventDto> findAll(String selectedType, String searchParam) {
         List<Event> events;
-
-        EEventType type = getEventType(selectedType);
-        if(type == null){
+        if(selectedType.trim().equals("") && searchParam.trim().equals("")){
             events = eventRepository.findByOrderByDateAsc();
-        }else{
-            events = eventRepository.findByTypeOrderByDateAsc(type);
+            return EventMapper.toRespDtoList(events);
         }
-        return EventMapper.toRespDtoList(events);
+        if(!searchParam.trim().equals("") && selectedType.trim().equals("")){
+            events = eventRepository.findByNameContainingIgnoreCaseOrderByDateAsc(searchParam);
+            return EventMapper.toRespDtoList(events);
+        }
+        EEventType type = getEventType(selectedType);
+        if(type != null && searchParam.trim().equals("")){
+            events = eventRepository.findByTypeOrderByDateAsc(type);
+            return EventMapper.toRespDtoList(events);
+        }else{
+            events = eventRepository.findByNameContainingIgnoreCaseAndTypeOrderByDateAsc(searchParam, type);
+            return EventMapper.toRespDtoList(events);
+        }
     }
 
     public RespEventDto findOne(String eventId) {
