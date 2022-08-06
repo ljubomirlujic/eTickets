@@ -9,7 +9,7 @@ import ChartList from './pages/ChartList';
 import CreateEvent from './pages/CreateEvent'
 import Event from './pages/Event';
 import EditEvent from './pages/EditEvent';
-
+import Checkout from './pages/Checkout';
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +24,7 @@ function App() {
         <Route exact path="/event" element={<Event />} />
         <Route exact path="/createEvent" element={<CreateEvent />} />
         <Route exact path="/editEvent" element={<EditEvent />} />
+        <Route exact path='/checkout' element={<Checkout />} />
       </Routes>
     </BrowserRouter>
   );

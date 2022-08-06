@@ -1,5 +1,6 @@
 package com.ftn.eTickets.web.controller;
 
+import com.ftn.eTickets.exceptions.BadRequestException;
 import com.ftn.eTickets.model.User;
 import com.ftn.eTickets.service.UserService;
 import com.ftn.eTickets.web.dto.ReqEventDto;
@@ -26,15 +27,19 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity createUser(@Valid @RequestBody ReqUserDto requestDto){
-
-        String id = userService.create(requestDto);
-        URI location = ServletUriComponentsBuilder
+        try{
+            String id = userService.create(requestDto);
+            URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(id)
                 .toUri();
 
-        return ResponseEntity.created(location).build();
+            return ResponseEntity.created(location).build();
+
+        }catch (BadRequestException e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
 
     }
 

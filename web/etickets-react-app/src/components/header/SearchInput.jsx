@@ -9,7 +9,7 @@ function SearchInput(props) {
 
   const onSearch = (value) => navigate(`/events?searchParam=${value}`);
   return (
-    <div className={props.searchClass}>
+    <div className="search-panel">
       <Search
         placeholder="input event name for search"
         enterButton
