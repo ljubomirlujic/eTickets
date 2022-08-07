@@ -3,6 +3,7 @@ package com.ftn.eTickets.web.controller;
 import com.ftn.eTickets.exceptions.BadRequestException;
 import com.ftn.eTickets.exceptions.NotFoundException;
 import com.ftn.eTickets.service.EventService;
+import com.ftn.eTickets.web.dto.BookSeatsRequest;
 import com.ftn.eTickets.web.dto.ReqEventDto;
 import com.ftn.eTickets.web.dto.RespEventDto;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -11,15 +12,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import seatsio.SeatsioException;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-@CrossOrigin
-@RestController
-@RequestMapping(value = "/api/events")
+    @CrossOrigin
+    @RestController
+    @RequestMapping(value = "/api/events")
 public class EventController {
 
     private final EventService eventService;
@@ -75,6 +77,17 @@ public class EventController {
         }
 
     }
+
+    @PutMapping("/event/{eventId}/bookSeats")
+    public ResponseEntity bookSeats(@RequestBody BookSeatsRequest bookSeatsRequest, @PathVariable String eventId){
+        try{
+            eventService.bookSeats(bookSeatsRequest, eventId);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }catch (SeatsioException e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteEvent(@PathVariable String id){

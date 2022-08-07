@@ -4,6 +4,8 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import { EventService } from "../../services/EventService";
+import { useNavigate } from "react-router-dom";
 
 function CheckoutForm(props) {
   const stripe = useStripe();
@@ -11,6 +13,27 @@ function CheckoutForm(props) {
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  const bookSeats = () => {
+    const bookObjects = [];
+    props.tickets.tickets.forEach((ticket) => {
+      for (let key in ticket) {
+        if (key == "label") {
+          bookObjects.push(ticket[key]);
+        }
+      }
+    });
+
+    const holdToken = JSON.parse(sessionStorage.getItem("seatsio"));
+    const paymentData = {
+      objects: bookObjects,
+      holdToken: holdToken.holdToken,
+    };
+
+    EventService.bookSeats(props.tickets.eventId, paymentData);
+  };
 
   useEffect(() => {
     if (!stripe) {
@@ -50,18 +73,22 @@ function CheckoutForm(props) {
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: "http://localhost:3000",
-      },
-    });
-
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-      setMessage("An unexpected error occurred.");
-    }
+    await stripe
+      .confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `http://localhost:3000/successPage?paymentStatus=success`,
+        },
+        redirect: "if_required",
+      })
+      .then(() => {
+        bookSeats();
+        navigate("/successPage");
+      })
+      .catch((error) => {
+        setMessage(error);
+        console.log(error);
+      });
 
     setIsLoading(false);
   };

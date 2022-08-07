@@ -12,7 +12,6 @@ function CheckoutPreview(props) {
     return price;
   };
 
-  console.log(props.customerPaymentMethod);
   return (
     <>
       <h1>Cart Preview</h1>

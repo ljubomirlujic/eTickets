@@ -10,6 +10,7 @@ import CreateEvent from './pages/CreateEvent'
 import Event from './pages/Event';
 import EditEvent from './pages/EditEvent';
 import Checkout from './pages/Checkout';
+import SuccessPage from './pages/SuccessPage';
 function App() {
   return (
     <BrowserRouter>
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/createEvent" element={<CreateEvent />} />
         <Route exact path="/editEvent" element={<EditEvent />} />
         <Route exact path='/checkout' element={<Checkout />} />
+        <Route exact path='/successPage' element={<SuccessPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -8,6 +8,7 @@ export const EventService = {
     getOne,
     create,
     update,
+    bookSeats,
     deleteEvent
 
 }
@@ -31,4 +32,9 @@ async function update(formData, id) {
 
 async function deleteEvent(id) {
     return await AxiosClient.delete(baseURL + `/${id}`);
+}
+
+
+async function bookSeats(eventId, objects) {
+    return await AxiosClient.put(baseURL + `/event/${eventId}/bookSeats`, objects);
 }

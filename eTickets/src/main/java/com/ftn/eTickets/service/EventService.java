@@ -6,6 +6,7 @@ import com.ftn.eTickets.model.Category;
 import com.ftn.eTickets.model.EEventType;
 import com.ftn.eTickets.model.Event;
 import com.ftn.eTickets.repository.EventRepository;
+import com.ftn.eTickets.web.dto.BookSeatsRequest;
 import com.ftn.eTickets.web.dto.ReqEventDto;
 import com.ftn.eTickets.web.dto.RespEventDto;
 import com.ftn.eTickets.web.dto.mapper.EventMapper;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import seatsio.Region;
 import seatsio.SeatsioClient;
+import seatsio.SeatsioException;
 
 import java.util.*;
 
@@ -95,6 +97,16 @@ public class EventService {
         event.setId(id);
         event.setEventKey(getEvent.get().getEventKey());
         eventRepository.save(event);
+    }
+
+    public void bookSeats(BookSeatsRequest bookSeatsRequest, String eventId) throws SeatsioException{
+        Event event = getOne(eventId);
+        try {
+            client.events.book(event.getEventKey(), bookSeatsRequest.getObjects(), bookSeatsRequest.getHoldToken());
+        }catch (SeatsioException e){
+            throw new SeatsioException(e.getMessage());
+        }
+
     }
 
     public boolean delete(String id) {

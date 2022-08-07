@@ -907,6 +907,15 @@ footer {
 #cardIcon {
   font-size: 24px;
 }
+
+.successPurchase div {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.successPurchase div h2 {
+  text-align: center;
+}
 /* ----------responsive media quieries----------- */
 @media only screen and (max-width: 1480px) {
   .header-container {

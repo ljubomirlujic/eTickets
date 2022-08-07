@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import CheckoutView from "../components/checkout/CheckoutView";
 import { PaymentService } from "../services/PaymentService";
+import { TokenService } from "../services/TokenService";
 
 function CheckoutContainer() {
   const [customerPaymentMethods, setCustomerPaymentMethods] = useState([]);
@@ -17,7 +18,9 @@ function CheckoutContainer() {
   };
 
   useEffect(() => {
-    getLoggedCustomerPaymentMethods();
+    if (TokenService.getToken() != null) {
+      getLoggedCustomerPaymentMethods();
+    }
   }, []);
   return <CheckoutView customerPaymentMethod={customerPaymentMethods[0]} />;
 }
