@@ -68,6 +68,7 @@ function PaymentComponent(props) {
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm
+            bookMode={props.bookMode}
             setClientSecret={clientSecret}
             tickets={props.tickets}
           />

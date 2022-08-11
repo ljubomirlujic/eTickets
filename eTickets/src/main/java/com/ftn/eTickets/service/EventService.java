@@ -6,9 +6,7 @@ import com.ftn.eTickets.model.Category;
 import com.ftn.eTickets.model.EEventType;
 import com.ftn.eTickets.model.Event;
 import com.ftn.eTickets.repository.EventRepository;
-import com.ftn.eTickets.web.dto.BookSeatsRequest;
-import com.ftn.eTickets.web.dto.ReqEventDto;
-import com.ftn.eTickets.web.dto.RespEventDto;
+import com.ftn.eTickets.web.dto.*;
 import com.ftn.eTickets.web.dto.mapper.EventMapper;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -20,6 +18,9 @@ import org.springframework.stereotype.Service;
 import seatsio.Region;
 import seatsio.SeatsioClient;
 import seatsio.SeatsioException;
+import seatsio.events.BestAvailable;
+import seatsio.events.BestAvailableResult;
+import seatsio.reports.events.EventReportDeepSummaryItem;
 
 import java.util.*;
 
@@ -69,6 +70,12 @@ public class EventService {
         return event.orElse(null);
     }
 
+    public Object getAvailableSeatsReport(String eventId){
+        Map<String, EventReportDeepSummaryItem> report = client.eventReports.deepSummaryByAvailabilityReason(eventId);
+        Object available = report.get("available");
+        return available;
+    }
+
 
     public String create(ReqEventDto requestDto, String chartKey) throws BadRequestException {
             Event event = EventMapper.toEntity(requestDto);
@@ -103,11 +110,49 @@ public class EventService {
         Event event = getOne(eventId);
         try {
             client.events.book(event.getEventKey(), bookSeatsRequest.getObjects(), bookSeatsRequest.getHoldToken());
+
+        }catch (SeatsioException e){
+            bookWithoutHoldToken(bookSeatsRequest, event);
+        }
+
+    }
+
+    private void bookWithoutHoldToken(BookSeatsRequest bookSeatsRequest, Event event){
+        try {
+            client.events.book(event.getEventKey(), bookSeatsRequest.getObjects());
+        }catch (SeatsioException ex) {
+            throw new SeatsioException(ex.getMessage());
+        }
+    }
+
+    public List<String> bookBestAvailable(BookBestAvaliableReq bookBestAvaliableReq, String eventId) throws SeatsioException{
+        Event event = getOne(eventId);
+        List<String> bookedSeats = new ArrayList<>();
+        try {
+            for(BookCategory category: bookBestAvaliableReq.getCategories()){
+             BestAvailableResult result = client.events.book(event.getEventKey(),new BestAvailable(category.getNumberOfSeats(),  Arrays.asList(category.getCategory())));
+             for(String seat : result.objects){
+                 bookedSeats.add(seat);
+             }
+            }
+            return bookedSeats;
         }catch (SeatsioException e){
             throw new SeatsioException(e.getMessage());
         }
 
     }
+
+
+    public void releaseSeats(ReleaseSeatsReq releaseSeatsReq, String eventId) throws SeatsioException{
+        Event event = getOne(eventId);
+        try {
+            client.events.release(event.getEventKey(),releaseSeatsReq.getSeats());
+        }catch (SeatsioException e){
+            throw new SeatsioException(e.getMessage());
+        }
+
+    }
+
 
     public boolean delete(String id) {
         Event event = eventRepository.findById(id).orElse(null);

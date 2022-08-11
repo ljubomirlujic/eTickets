@@ -15,7 +15,7 @@ function EventChart(props) {
 
   const handleRemove = (ticket) => {
     setSelectedSeats((selectedSeats) =>
-      selectedSeats.filter((object) => object.label !== ticket.label)
+      selectedSeats.filter((object) => object.id !== ticket.id)
     );
   };
 
@@ -43,9 +43,14 @@ function EventChart(props) {
     localStorage.removeItem("cart");
   };
 
-  return props.checked === false ? (
-    <></>
-  ) : (
+  const handleDisabledBtn = () => {
+    if (selectedSeats.length > 0) {
+      return 0;
+    }
+    return 1;
+  };
+
+  return (
     <>
       <div className="chart-container">
         <SeatsioSeatingChart
@@ -56,7 +61,11 @@ function EventChart(props) {
           region="eu"
           session="continue"
           divId="chart"
+          maxSelectedObjects="6"
+          showLegend="true"
           onObjectSelected={handleSelected}
+          showRowLabels="true"
+          showRowLines="true"
           onObjectDeselected={handleRemove}
           onHoldTokenExpired={handleTokenExpired}
         />
@@ -67,7 +76,11 @@ function EventChart(props) {
         </div>
       </div>
       <div className="continue-btn-container">
-        <Button className="ant-btn-primary" onClick={handleClick}>
+        <Button
+          className="ant-btn-primary"
+          onClick={handleClick}
+          disabled={handleDisabledBtn()}
+        >
           <Link to={"/checkout"}>
             CONTINUE <SendOutlined id="sendBtnArrow" />
           </Link>

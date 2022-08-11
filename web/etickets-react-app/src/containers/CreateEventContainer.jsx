@@ -24,7 +24,7 @@ function CreateEventContainer() {
       console.error(e);
     }
   };
-
+  console.log(categories);
   const createEvent = async (formData) => {
     try {
       await EventService.create(formData, chartKey);

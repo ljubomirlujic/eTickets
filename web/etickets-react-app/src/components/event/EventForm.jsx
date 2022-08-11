@@ -33,9 +33,14 @@ function EventForm(props) {
     else array.push(item);
   }
 
-  const handleChangeCategories = (event, key) => {
+  const handleChangeCategories = (event, key, label) => {
+    console.log("sss" + label);
     let updateCategories = [...formData.categories];
-    addOrUpdate(updateCategories, { category: key, price: event.target.value });
+    addOrUpdate(updateCategories, {
+      category: key,
+      label: label,
+      price: event.target.value,
+    });
     setFormData({ ...formData, categories: updateCategories });
   };
 
@@ -164,7 +169,11 @@ function EventForm(props) {
                         : ""
                     }
                     onChange={(event) =>
-                      handleChangeCategories(event, category.key)
+                      handleChangeCategories(
+                        event,
+                        category.key,
+                        category.label
+                      )
                     }
                   />
                 </div>

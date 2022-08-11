@@ -3,17 +3,19 @@ import EventChart from "./EventChart";
 import seatsIcon from "../../assets/img/seats_icon.svg";
 import bestAvaliableIcon from "../../assets/img/best_avaliable_icon.svg";
 import { useState } from "react";
+import BestAvailable from "./BestAvailable";
 
 function EventView(props) {
   const [chartChecked, setChartChecked] = useState(false);
+  const [componentToRender, setComponentToRender] = useState("bestAvaliable");
+
   const handleChange = (event) => {
     if (event.target.value === "chart") {
-      setChartChecked(true);
+      setComponentToRender("chart");
     } else {
-      setChartChecked(false);
+      setComponentToRender("bestAvaliable");
     }
   };
-
   return (
     <>
       <div className="event-header">
@@ -58,8 +60,14 @@ function EventView(props) {
           </div>
           <hr id="second-hr" />
         </div>
-
-        <EventChart event={props.event} checked={chartChecked} />
+        {componentToRender == "chart" ? (
+          <EventChart event={props.event} checked={chartChecked} />
+        ) : (
+          <BestAvailable
+            availableReport={props.availableReport}
+            event={props.event}
+          />
+        )}
       </div>
     </>
   );

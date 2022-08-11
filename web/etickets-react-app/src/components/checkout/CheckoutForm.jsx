@@ -15,8 +15,8 @@ function CheckoutForm(props) {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-
-  const bookSeats = () => {
+  let response = null;
+  const bookSeats = async () => {
     const bookObjects = [];
     props.tickets.tickets.forEach((ticket) => {
       for (let key in ticket) {
@@ -31,8 +31,41 @@ function CheckoutForm(props) {
       objects: bookObjects,
       holdToken: holdToken.holdToken,
     };
+    response = bookObjects;
+    return EventService.bookSeats(props.tickets.eventId, paymentData);
+  };
 
-    EventService.bookSeats(props.tickets.eventId, paymentData);
+  const getNumberByCategories = (objects) => {
+    const response = [];
+
+    const categories = new Set();
+    objects.forEach((object) => {
+      categories.add(object["category"]);
+    });
+
+    categories.forEach((category) => {
+      const filteredCategorieres = objects.filter(
+        (object) => object.category == category
+      );
+      const objectsToSend = {
+        category: category,
+        numberOfSeats: filteredCategorieres.length,
+      };
+      response.push(objectsToSend);
+    });
+    return response;
+  };
+
+  const bookBestAvailable = async () => {
+    const paymentData = {
+      categories: getNumberByCategories(props.tickets.tickets),
+    };
+
+    return EventService.bookBestAvailable(props.tickets.eventId, paymentData);
+  };
+
+  const releaseSeats = (data) => {
+    EventService.releaseSeats(props.tickets.eventId, data);
   };
 
   useEffect(() => {
@@ -73,22 +106,36 @@ function CheckoutForm(props) {
 
     setIsLoading(true);
 
-    await stripe
-      .confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: `http://localhost:3000/successPage?paymentStatus=success`,
-        },
-        redirect: "if_required",
-      })
-      .then(() => {
-        bookSeats();
-        navigate("/successPage");
-      })
-      .catch((error) => {
-        setMessage(error);
-        console.log(error);
-      });
+    try {
+      if (props.bookMode == "bestAvailable") {
+        const resp = await bookBestAvailable();
+        response = resp.data;
+      } else {
+        await bookSeats();
+      }
+
+      await stripe
+        .confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: `http://localhost:3000/successPage?paymentStatus=success`,
+          },
+          redirect: "if_required",
+        })
+        .then((resp) => {
+          if (resp["error"] == null) {
+            navigate("/successPage");
+          } else {
+            console.log(response);
+            const releaseData = {
+              seats: response,
+            };
+            releaseSeats(releaseData);
+          }
+        });
+    } catch (error) {
+      navigate("/faildPayment");
+    }
 
     setIsLoading(false);
   };

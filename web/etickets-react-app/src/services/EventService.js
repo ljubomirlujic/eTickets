@@ -6,9 +6,12 @@ const baseURL = "http://localhost:8080/api/events";
 export const EventService = {
     getAllEvents,
     getOne,
+    getAvailableReport,
     create,
     update,
     bookSeats,
+    bookBestAvailable,
+    releaseSeats,
     deleteEvent
 
 }
@@ -21,6 +24,12 @@ async function getAllEvents(eventType, searchParam) {
 async function getOne(id) {
     return await AxiosClient.get(baseURL + `/${id}`);
 }
+
+
+async function getAvailableReport(eventId) {
+    return await AxiosClient.get(baseURL + `/${eventId}/availableSeats`);
+}
+
 
 async function create(formData, chartKey) {
     return await AxiosClient.post(baseURL + `?chartKey=${chartKey}`, formData);
@@ -37,4 +46,12 @@ async function deleteEvent(id) {
 
 async function bookSeats(eventId, objects) {
     return await AxiosClient.put(baseURL + `/event/${eventId}/bookSeats`, objects);
+}
+
+async function bookBestAvailable(eventId, objects) {
+    return await AxiosClient.post(baseURL + `/${eventId}/bookBestAvailable`, objects);
+}
+
+async function releaseSeats(eventId, objects) {
+    return await AxiosClient.post(baseURL + `/${eventId}/releaseSeats`, objects);
 }

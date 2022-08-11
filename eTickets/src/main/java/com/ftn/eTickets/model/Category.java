@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Category {
 
     private String category;
+    private String label;
     private Long price;
     private String priceId;
 }

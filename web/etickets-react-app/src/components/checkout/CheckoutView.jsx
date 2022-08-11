@@ -16,6 +16,10 @@ function CheckoutView(props) {
   const [cardChecked, setCardChecked] = useState(false);
   const [token, setToken] = useState(null);
 
+  const url = window.location.search;
+  const params = new URLSearchParams(url);
+  const bookMode = params.get("mode");
+
   const navigate = useNavigate();
 
   const tickets = JSON.parse(localStorage.getItem("cart"));
@@ -100,6 +104,7 @@ function CheckoutView(props) {
         <TabPane tab="Customer data" key="2" disabled></TabPane>
         <TabPane tab="Payment" key="3" disabled>
           <PaymentComponent
+            bookMode={bookMode}
             tickets={tickets}
             savePaymentChecked={savePaymentChecked}
             cardChecked={cardChecked}

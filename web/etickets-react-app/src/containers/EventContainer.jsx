@@ -19,6 +19,7 @@ const defaultEvent = {
 
 function EventContainer() {
   const [event, setEvent] = useState(defaultEvent);
+  const [availableReport, setAvailableReport] = useState({});
 
   const url = window.location.search;
   const params = new URLSearchParams(url);
@@ -28,6 +29,16 @@ function EventContainer() {
     try {
       const response = await EventService.getOne(eventId);
       setEvent(response.data);
+      fetchAvailableReport(response.data.eventKey);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const fetchAvailableReport = async (eventId) => {
+    try {
+      const response = await EventService.getAvailableReport(eventId);
+      setAvailableReport(response.data);
     } catch (e) {
       console.error(e);
     }
@@ -36,7 +47,7 @@ function EventContainer() {
   useEffect(() => {
     fetchEvent(eventId);
   }, [eventId]);
-  return <EventView event={event} />;
+  return <EventView event={event} availableReport={availableReport} />;
 }
 
 export default EventContainer;

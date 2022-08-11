@@ -3,10 +3,7 @@ package com.ftn.eTickets.web.controller;
 import com.ftn.eTickets.exceptions.BadRequestException;
 import com.ftn.eTickets.exceptions.NotFoundException;
 import com.ftn.eTickets.service.EventService;
-import com.ftn.eTickets.web.dto.BookSeatsRequest;
-import com.ftn.eTickets.web.dto.ReqEventDto;
-import com.ftn.eTickets.web.dto.RespEventDto;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import com.ftn.eTickets.web.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,11 +14,10 @@ import seatsio.SeatsioException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 
-    @CrossOrigin
-    @RestController
-    @RequestMapping(value = "/api/events")
+@CrossOrigin
+@RestController
+@RequestMapping(value = "/api/events")
 public class EventController {
 
     private final EventService eventService;
@@ -47,6 +43,18 @@ public class EventController {
             return new ResponseEntity(responseEvent, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/{eventId}/availableSeats")
+    public  ResponseEntity getAvailableSeatsReport(@PathVariable String eventId){
+        Object response = eventService.getAvailableSeatsReport(eventId);
+        if(response == null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity(response, HttpStatus.OK);
+        }
+    }
+
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity createEvent(@Valid @RequestBody ReqEventDto requestDto, @RequestParam("chartKey") String chartKey)  {
@@ -83,6 +91,26 @@ public class EventController {
         try{
             eventService.bookSeats(bookSeatsRequest, eventId);
             return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }catch (SeatsioException e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/{eventId}/bookBestAvailable")
+    public ResponseEntity bookBestAvailable(@RequestBody BookBestAvaliableReq bookBestAvailable, @PathVariable String eventId){
+        try{
+            List<String> bookedSeats = eventService.bookBestAvailable(bookBestAvailable, eventId);
+            return new ResponseEntity(bookedSeats, HttpStatus.OK);
+        }catch (SeatsioException e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/{eventId}/releaseSeats")
+    public ResponseEntity bookBestAvailable(@RequestBody ReleaseSeatsReq releaseSeatsReq, @PathVariable String eventId){
+        try{
+             eventService.releaseSeats(releaseSeatsReq, eventId);
+            return new ResponseEntity(HttpStatus.OK);
         }catch (SeatsioException e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
