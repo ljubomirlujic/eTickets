@@ -1,5 +1,6 @@
 package com.ftn.eTickets.service;
 
+import com.ftn.eTickets.model.Category;
 import com.ftn.eTickets.model.Event;
 import com.ftn.eTickets.model.User;
 import com.ftn.eTickets.web.dto.CategoryReqDto;
@@ -93,7 +94,8 @@ public class PaymentService {
 
 
         if(paymentRequest.isCardChecked()) {
-          PaymentIntent paymentIntent = chargeCustomer(customer.getId(), calculateOrderAmount(paymentRequest.getItems()));
+          PaymentIntent paymentIntent = chargeCustomer(customer.getId(),
+                  calculateOrderAmount(paymentRequest.getItems(), paymentRequest.getEventId()));
             paymentResponse.setStatus(paymentIntent.getStatus());
             return paymentResponse;
 
@@ -103,7 +105,7 @@ public class PaymentService {
                     PaymentIntentCreateParams.builder()
                             .setCustomer(customer.getId())
                             .setSetupFutureUsage(PaymentIntentCreateParams.SetupFutureUsage.OFF_SESSION)
-                            .setAmount(calculateOrderAmount(paymentRequest.getItems()))
+                            .setAmount(calculateOrderAmount(paymentRequest.getItems(), paymentRequest.getEventId()))
                             .setCurrency("rsd")
                             .setAutomaticPaymentMethods(
                                     PaymentIntentCreateParams.AutomaticPaymentMethods
@@ -123,7 +125,7 @@ public class PaymentService {
                     PaymentIntentCreateParams.builder()
                             .setCustomer(customer.getId())
                             .setSetupFutureUsage(PaymentIntentCreateParams.SetupFutureUsage.OFF_SESSION)
-                            .setAmount(calculateOrderAmount(paymentRequest.getItems()))
+                            .setAmount(calculateOrderAmount(paymentRequest.getItems(), paymentRequest.getEventId()))
                             .setCurrency("rsd")
                             .setAutomaticPaymentMethods(
                                     PaymentIntentCreateParams.AutomaticPaymentMethods
@@ -141,7 +143,7 @@ public class PaymentService {
             PaymentIntentCreateParams params =
                     PaymentIntentCreateParams.builder()
                             .setCustomer(customer.getId())
-                            .setAmount(calculateOrderAmount(paymentRequest.getItems()))
+                            .setAmount(calculateOrderAmount(paymentRequest.getItems(), paymentRequest.getEventId()))
                             .setCurrency("rsd")
                             .setAutomaticPaymentMethods(
                                     PaymentIntentCreateParams.AutomaticPaymentMethods
@@ -163,10 +165,15 @@ public class PaymentService {
 
     }
 
-    private long calculateOrderAmount(List<CategoryReqDto> items) {
+    private long calculateOrderAmount(List<CategoryReqDto> items, String eventId) {
+        Event event = eventService.getOne(eventId);
         long sum = 0;
         for(CategoryReqDto item : items){
-            sum+=item.getPrice();
+            for(Category category : event.getCategories()){
+                if(item.getCategory().equals(category.getCategory())){
+                    sum+=category.getPrice();
+                }
+            }
         }
         sum*=100;
 

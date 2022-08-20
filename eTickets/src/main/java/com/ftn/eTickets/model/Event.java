@@ -27,5 +27,6 @@ public class Event {
     private EEventType type;
     private List<Category> categories;
     private String eventKey;
+    private String chartKey;
     private String productId;
 }

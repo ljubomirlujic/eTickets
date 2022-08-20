@@ -33,9 +33,9 @@ function EventForm(props) {
     else array.push(item);
   }
 
-  const handleChangeCategories = (event, key, label) => {
-    console.log("sss" + label);
+  const handleChangeCategories = (event, key, label, priceId) => {
     let updateCategories = [...formData.categories];
+    console.log(priceId);
     addOrUpdate(updateCategories, {
       category: key,
       label: label,

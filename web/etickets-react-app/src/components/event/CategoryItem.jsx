@@ -7,8 +7,8 @@ function CategoryItem(props) {
   const availability = props.availability;
 
   const ticket = {
-    label: props.category.category,
-    category: props.category.label,
+    label: props.category.label,
+    category: props.category.category,
     price: props.category.price,
   };
 

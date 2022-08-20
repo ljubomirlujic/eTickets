@@ -89,6 +89,7 @@ public class EventService {
             }
         String eventKey = client.events.create(chartKey).key;
         event.setEventKey(eventKey);
+        event.setChartKey(chartKey);
         Event preservedEvent = eventRepository.save(event);
 
         return preservedEvent.getId();
@@ -103,8 +104,20 @@ public class EventService {
         Event event = EventMapper.toEntity(requestDto);
         event.setId(id);
         event.setEventKey(getEvent.get().getEventKey());
+        event.setChartKey(getEvent.get().getChartKey());
+        try {
+            String productId = updateProduct(getEvent.get().getProductId(), event.getName());
+            event.setProductId(productId);
+            event = setPrices(event);
+        }
+        catch (StripeException e) {
+            throw new BadRequestException("Bad request stripe");
+        }
+
         eventRepository.save(event);
     }
+
+
 
     public void bookSeats(BookSeatsRequest bookSeatsRequest, String eventId) throws SeatsioException{
         Event event = getOne(eventId);
@@ -159,6 +172,12 @@ public class EventService {
         if(event == null){
             return false;
         }
+        try {
+            archiveProduct(event.getProductId());
+
+        }catch (StripeException e){
+            throw new SeatsioException(e.getMessage());
+        }
         client.events.delete(event.getEventKey());
         eventRepository.delete(event);
         return true;
@@ -171,6 +190,28 @@ public class EventService {
 
         Product product = Product.create(params);
         return product.getId();
+
+    }
+
+    private String updateProduct(String productId, String name) throws StripeException {
+        Stripe.apiKey = stripeSecretKey;
+        archiveProduct(productId);
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", name);
+
+        Product product = Product.create(params);
+        return product.getId();
+    }
+
+    private void archiveProduct(String productId) throws StripeException {
+        Stripe.apiKey = stripeSecretKey;
+        Product product =
+                Product.retrieve(productId);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("active", false);
+
+        product.update(params);
 
     }
 

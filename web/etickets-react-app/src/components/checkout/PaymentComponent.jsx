@@ -21,7 +21,7 @@ function PaymentComponent(props) {
     cardChecked: props.cardChecked,
   };
 
-  const bookSeats = () => {
+  const bookSeats = async () => {
     const bookObjects = [];
     props.tickets.tickets.forEach((ticket) => {
       for (let key in ticket) {
@@ -40,12 +40,44 @@ function PaymentComponent(props) {
     EventService.bookSeats(props.tickets.eventId, paymentData);
   };
 
+  const getNumberByCategories = (objects) => {
+    const response = [];
+
+    const categories = new Set();
+    objects.forEach((object) => {
+      categories.add(object["category"]);
+    });
+
+    categories.forEach((category) => {
+      const filteredCategorieres = objects.filter(
+        (object) => object.category == category
+      );
+      const objectsToSend = {
+        category: category,
+        numberOfSeats: filteredCategorieres.length,
+      };
+      response.push(objectsToSend);
+    });
+    return response;
+  };
+
+  const bookBestAvailable = async () => {
+    const paymentData = {
+      categories: getNumberByCategories(props.tickets.tickets),
+    };
+
+    return EventService.bookBestAvailable(props.tickets.eventId, paymentData);
+  };
+
   const createPayment = async (paymentData) => {
     try {
       const response = await PaymentService.createPayment(paymentData);
-      console.log(response);
       if (response.data.status == "succeeded") {
-        bookSeats();
+        if (props.bookMode == "bestAvailable") {
+          await bookBestAvailable();
+        } else {
+          await bookSeats();
+        }
         navigate("/successPage");
       }
       setClientSecret(response.data.clientSecret);

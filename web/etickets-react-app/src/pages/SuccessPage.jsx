@@ -1,7 +1,6 @@
 import React from "react";
 import MainLayout from "../layouts/MainLayout";
 import successImage from "../assets/img/success.png";
-import { useEffect } from "react";
 
 function SuccessPage() {
   return (

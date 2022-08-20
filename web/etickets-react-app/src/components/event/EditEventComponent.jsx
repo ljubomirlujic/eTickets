@@ -3,11 +3,7 @@ import { SeatsioEventManager } from "@seatsio/seatsio-react";
 import EventForm from "./EventForm";
 
 function EditEventComponent(props) {
-  const [categories, setCategories] = useState([]);
-
-  const getCategories = (chart) => {
-    chart.listCategories().then((categories) => setCategories(categories));
-  };
+  const categories = props.categories;
 
   return (
     <div className="edit-event-container">
@@ -17,7 +13,6 @@ function EditEventComponent(props) {
           event={props.event.eventKey}
           mode="manageForSaleConfig"
           region="eu"
-          onChartRendered={getCategories}
           divId="chart"
         />
       </div>

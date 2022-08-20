@@ -22,9 +22,10 @@ function EventChart(props) {
   const handleClick = () => {
     const tickets = [];
     selectedSeats.map((ticket) => {
+      console.log(ticket);
       const _ticket = {
         label: ticket.label,
-        category: ticket.category.label,
+        category: ticket.category.key,
         price: ticket.pricing.price,
       };
       return tickets.push(_ticket);

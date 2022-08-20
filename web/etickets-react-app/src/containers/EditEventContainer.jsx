@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EditEventComponent from "../components/event/EditEventComponent";
 import { EventService } from "../services/EventService";
+import { ChartService } from "../services/ChartService";
 import { message } from "antd";
 const defaultEvent = {
   id: "",
@@ -17,6 +18,7 @@ const defaultEvent = {
 
 function EditEventContainer() {
   const [event, setEvent] = useState(defaultEvent);
+  const [categories, setCategories] = useState([]);
 
   const error = () => {
     message.error("Something went wrong");
@@ -30,6 +32,7 @@ function EditEventContainer() {
     try {
       const response = await EventService.getOne(eventId);
       setEvent(response.data);
+      fetchChartCategories(response.data.chartKey);
     } catch (e) {
       console.error(e);
     }
@@ -45,11 +48,26 @@ function EditEventContainer() {
     }
   };
 
+  const fetchChartCategories = async (chartKey) => {
+    try {
+      const response = await ChartService.getChartCategories(chartKey);
+      setCategories(response.data.list);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     fetchEvent(eventId);
   }, [eventId]);
 
-  return <EditEventComponent event={event} handleForm={updateEvent} />;
+  return (
+    <EditEventComponent
+      event={event}
+      handleForm={updateEvent}
+      categories={categories}
+    />
+  );
 }
 
 export default EditEventContainer;

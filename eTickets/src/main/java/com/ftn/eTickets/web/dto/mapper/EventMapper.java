@@ -49,6 +49,7 @@ public class EventMapper {
                 .image(event.getImage())
                 .categories(event.getCategories())
                 .eventKey(event.getEventKey())
+                .chartKey(event.getChartKey())
                 .type(event.getType())
                 .build();
     }
