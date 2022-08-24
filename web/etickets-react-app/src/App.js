@@ -12,6 +12,8 @@ import EditEvent from './pages/EditEvent';
 import Checkout from './pages/Checkout';
 import SuccessPage from './pages/SuccessPage';
 import FailedPaymentPage from './pages/FailedPaymentPage';
+import Profile from './pages/Profile';
+
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +31,7 @@ function App() {
         <Route exact path='/checkout' element={<Checkout />} />
         <Route exact path='/successPage' element={<SuccessPage />} />
         <Route exact path='/faildPayment' element={<FailedPaymentPage />} />
+        <Route exact path='/profile' element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

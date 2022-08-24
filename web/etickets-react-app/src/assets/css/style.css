@@ -287,6 +287,38 @@ footer {
   left: 40%;
 }
 
+/* ---------profile--------------- */
+
+.profile-container {
+  height: fit-content;
+  padding-bottom: 20px;
+  width: 40%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  margin: auto;
+  margin-top: 2%;
+}
+
+.profile-heading {
+  width: 100%;
+  text-align: center;
+}
+.profile-heading h2 {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+}
+
+#profile-data form {
+  width: 500px;
+  padding: 20px;
+}
+
+.change-password-form form button,
+#profile-data form button {
+  padding: 6px 12px;
+  width: 150px;
+  font-size: 16px;
+}
+
 /* -------chart designer---------- */
 #chart {
   height: 650px;

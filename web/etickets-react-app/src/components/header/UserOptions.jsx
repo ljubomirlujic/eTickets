@@ -27,7 +27,7 @@ function UserOptions() {
     </Link>
   );
   const profilLink = (
-    <Link to={"/"} key={key++}>
+    <Link to={"/profile"} key={key++}>
       Profil
     </Link>
   );

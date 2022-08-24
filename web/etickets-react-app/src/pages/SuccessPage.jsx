@@ -7,7 +7,7 @@ function SuccessPage() {
     <MainLayout>
       <div className="successPurchase">
         <div>
-          <img src={successImage} alt="success purchase image" />
+          <img src={successImage} alt="success purchase" />
           <h2>Successful shopping :)</h2>
         </div>
       </div>
