@@ -13,7 +13,9 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Price;
 import com.stripe.model.Product;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import seatsio.Region;
 import seatsio.SeatsioClient;
@@ -22,6 +24,7 @@ import seatsio.events.BestAvailable;
 import seatsio.events.BestAvailableResult;
 import seatsio.reports.events.EventReportDeepSummaryItem;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -38,24 +41,18 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public List<RespEventDto> findAll(String selectedType, String searchParam) {
-        List<Event> events;
-        if(selectedType.trim().equals("") && searchParam.trim().equals("")){
-            events = eventRepository.findByOrderByDateAsc();
-            return EventMapper.toRespDtoList(events);
-        }
-        if(!searchParam.trim().equals("") && selectedType.trim().equals("")){
-            events = eventRepository.findByNameContainingIgnoreCaseOrderByDateAsc(searchParam);
-            return EventMapper.toRespDtoList(events);
-        }
-        EEventType type = getEventType(selectedType);
-        if(type != null && searchParam.trim().equals("")){
-            events = eventRepository.findByTypeOrderByDateAsc(type);
-            return EventMapper.toRespDtoList(events);
-        }else{
-            events = eventRepository.findByNameContainingIgnoreCaseAndTypeOrderByDateAsc(searchParam, type);
-            return EventMapper.toRespDtoList(events);
-        }
+    public RespPageableEventDto findAll(String eventType, String searchParam, LocalDate dateFrom, LocalDate dateTo, String city, int page) {
+        EEventType type;
+        Page<Event> events;
+        Pageable pageable = PageRequest.of(page, 10);
+       if(!eventType.equals("") && !eventType.equals("null")) {
+           type = getEventType(eventType);
+           events = eventRepository.findEventbyProperties(type, searchParam, dateFrom, dateTo, city, pageable);
+       }else{
+          events = eventRepository.findEventbyProperties(null, searchParam, dateFrom, dateTo, city, pageable);
+       }
+
+       return new RespPageableEventDto(EventMapper.toRespDtoList(events.getContent()), events.getTotalPages());
     }
 
     public RespEventDto findOne(String eventId) {
@@ -74,6 +71,10 @@ public class EventService {
         Map<String, EventReportDeepSummaryItem> report = client.eventReports.deepSummaryByAvailabilityReason(eventId);
         Object available = report.get("available");
         return available;
+    }
+
+    public List<String> findDistinctCities(){
+        return eventRepository.findDistinctLocation();
     }
 
 
@@ -239,7 +240,7 @@ public class EventService {
             EEventType type = EEventType.valueOf(selectedType);
             return type;
         }catch (IllegalArgumentException e){
-            return null;
+            return EEventType.BAD;
         }
     }
 

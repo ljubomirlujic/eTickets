@@ -2,7 +2,7 @@ import React from "react";
 import EventItem from "../home/EventItem";
 function Events(props) {
   return (
-    <>
+    <div className="home-right-side">
       <h1 style={{ textAlign: "center", fontFamily: "monospace", margin: 0 }}>
         Upcoming Events
       </h1>
@@ -11,7 +11,7 @@ function Events(props) {
           <EventItem event={event} key={i} deleteEvent={props.deleteEvent} />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 

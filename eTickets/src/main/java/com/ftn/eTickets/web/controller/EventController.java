@@ -4,6 +4,7 @@ import com.ftn.eTickets.exceptions.BadRequestException;
 import com.ftn.eTickets.exceptions.NotFoundException;
 import com.ftn.eTickets.service.EventService;
 import com.ftn.eTickets.web.dto.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import seatsio.SeatsioException;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @CrossOrigin
@@ -28,8 +30,14 @@ public class EventController {
 
     @GetMapping
     public ResponseEntity getAll(@RequestParam(name = "eventType", required = false, defaultValue = "")String eventType,
-                         @RequestParam(name = "searchParam", required = false, defaultValue = "")String searchParam){
-        List<RespEventDto> responseEvents = eventService.findAll(eventType, searchParam);
+                                 @RequestParam(name = "searchParam", required = false, defaultValue = "")String searchParam,
+                                 @RequestParam(name = "dateFrom", required = false, defaultValue = "") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                             LocalDate dateFrom,
+                                 @RequestParam(name = "dateTo", required = false, defaultValue = "") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                             LocalDate dateTo,
+                                 @RequestParam(name = "city", required = false, defaultValue = "")String city,
+                                 @RequestParam(defaultValue = "0") Integer page){
+        RespPageableEventDto responseEvents = eventService.findAll(eventType, searchParam, dateFrom, dateTo, city, page);
         return new ResponseEntity(responseEvents, HttpStatus.OK);
 
     }
@@ -45,7 +53,7 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}/availableSeats")
-    public  ResponseEntity getAvailableSeatsReport(@PathVariable String eventId){
+    public ResponseEntity getAvailableSeatsReport(@PathVariable String eventId){
         Object response = eventService.getAvailableSeatsReport(eventId);
         if(response == null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -53,6 +61,17 @@ public class EventController {
             return new ResponseEntity(response, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/cities")
+    public ResponseEntity getEventCities(){
+        List<String> response = eventService.findDistinctCities();
+        if(response == null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity(response, HttpStatus.OK);
+        }
+    }
+
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

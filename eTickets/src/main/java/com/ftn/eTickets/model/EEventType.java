@@ -4,5 +4,6 @@ public enum EEventType {
     SPORT,
     CONCERT,
     THEATRE,
-    OTHER
+    OTHER,
+    BAD
 }

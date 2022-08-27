@@ -6,6 +6,7 @@ const baseURL = "http://localhost:8080/api/events";
 export const EventService = {
     getAllEvents,
     getOne,
+    getAllCities,
     getAvailableReport,
     create,
     update,
@@ -16,9 +17,13 @@ export const EventService = {
 
 }
 
-async function getAllEvents(eventType, searchParam) {
+async function getAllEvents(eventType,
+    searchParam,
+    dateFrom,
+    dateTo,
+    city) {
 
-    return await AxiosClient.get(baseURL + `?searchParam=${searchParam}&eventType=${eventType}`);
+    return await AxiosClient.get(baseURL + `?searchParam=${searchParam}&eventType=${eventType}&dateFrom=${dateFrom}&dateTo=${dateTo}&city=${city}`);
 }
 
 async function getOne(id) {
@@ -29,6 +34,11 @@ async function getOne(id) {
 async function getAvailableReport(eventId) {
     return await AxiosClient.get(baseURL + `/${eventId}/availableSeats`);
 }
+
+async function getAllCities() {
+    return await AxiosClient.get(baseURL + `/cities`);
+}
+
 
 
 async function create(formData, chartKey) {

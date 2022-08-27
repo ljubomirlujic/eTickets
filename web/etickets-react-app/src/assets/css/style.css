@@ -192,6 +192,130 @@ footer {
   margin-top: 20px;
 }
 
+/* --------home---------- */
+
+.home-container {
+  display: flex;
+  flex-direction: row;
+  height: 680px;
+}
+
+.side-bar-filter {
+  box-shadow: 2px 0px 6px 1px rgba(0, 0, 0, 0.42);
+  height: 700px;
+}
+
+.side-bar-filter form {
+  display: flex;
+  flex-direction: column;
+  height: 82%;
+}
+
+.side-bar-filter h2 {
+  height: 50px;
+  margin: 0px;
+  background-color: #033d66;
+  color: #f6f6f6;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  text-align: center;
+}
+
+.date-filter {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 250px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.date-filter {
+  text-align: center;
+}
+
+.date-filter input[type="date"] {
+  width: 200px;
+  border-radius: 5px;
+  padding: 6px 12px;
+  border: 2px solid rgb(123, 123, 123);
+  font-family: "Courier New", Courier, monospace;
+  cursor: pointer;
+}
+.city-filter {
+  align-items: center;
+  overflow: scroll;
+  max-height: 300px;
+}
+
+.side-bar-filter h3 {
+  text-align: center;
+}
+
+.city-filter label {
+  display: flex;
+  cursor: pointer;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0.375em;
+}
+.city-filter label input {
+  position: absolute;
+  left: -9999px;
+}
+.city-filter label input:checked + span {
+  background-color: #d6d6e5;
+}
+.city-filter label input:checked + span:before {
+  box-shadow: inset 0 0 0 0.4375em #00005c;
+}
+.city-filter label span {
+  display: flex;
+  align-items: center;
+  padding: 0.375em 0.75em 0.375em 0.375em;
+  border-radius: 99em;
+  transition: 0.25s ease;
+  width: 200px;
+}
+.city-filter label span:hover {
+  background-color: #d6d6e5;
+}
+.city-filter label span:before {
+  display: flex;
+  flex-shrink: 0;
+  content: "";
+  background-color: #fff;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  margin-right: 0.375em;
+  transition: 0.25s ease;
+  box-shadow: inset 0 0 0 0.125em #00005c;
+}
+
+.city-filter-radio label {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.home-right-side {
+  width: 80%;
+}
+
+#filtersBtn {
+  width: 90%;
+  margin: auto;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 16px;
+  color: #fff;
+  font-weight: bold;
+  background-color: #fbb42f;
+  border: 0;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
 /* ----------events----------- */
 .events-container {
   display: grid;
@@ -210,7 +334,7 @@ footer {
 }
 
 .event img {
-  height: 150px;
+  height: 120px;
   width: 100%;
 }
 .event img:hover {
@@ -983,18 +1107,6 @@ h4 {
   display: flex;
   flex-direction: row;
   gap: 40px;
-}
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgb(162, 162, 162);
-}
-::-webkit-scrollbar-thumb {
-  background-color: rgb(241, 241, 241);
-  border-radius: 20px;
-  border: 3px solid rgb(184, 184, 184);
 }
 
 .checkout-previev-checkboxes {
