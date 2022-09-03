@@ -301,6 +301,7 @@ footer {
 
 .home-right-side {
   width: 80%;
+  position: relative;
 }
 
 #filtersBtn {
@@ -319,7 +320,7 @@ footer {
 /* ----------events----------- */
 .events-container {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto;
   justify-content: center;
   grid-gap: 1%;
   padding: 15px;
@@ -366,6 +367,45 @@ footer {
 
 #deleteBtn:hover {
   border-color: rgb(231, 15, 15);
+}
+
+/* -----------pagination------------ */
+.pagination {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  bottom: 0;
+}
+
+.pagination button {
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  border-radius: 50%;
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid gainsboro;
+  color: rgb(159, 159, 159);
+  cursor: pointer;
+}
+
+.pagination p {
+  display: inline;
+  margin-right: 10px;
+}
+
+.current-page-num {
+  display: inline;
+  padding: 4px 10px;
+  border: 1px solid gray;
+}
+
+#page-num-list {
+  display: inline;
+  margin: 0 3px;
+  font-size: 14px;
+  cursor: pointer;
+  color: rgb(179, 179, 179);
 }
 
 /* ----------register----------- */

@@ -21,9 +21,9 @@ async function getAllEvents(eventType,
     searchParam,
     dateFrom,
     dateTo,
-    city) {
+    city, page) {
 
-    return await AxiosClient.get(baseURL + `?searchParam=${searchParam}&eventType=${eventType}&dateFrom=${dateFrom}&dateTo=${dateTo}&city=${city}`);
+    return await AxiosClient.get(baseURL + `?searchParam=${searchParam}&eventType=${eventType}&dateFrom=${dateFrom}&dateTo=${dateTo}&city=${city}&page=${page}`);
 }
 
 async function getOne(id) {

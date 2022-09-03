@@ -15,6 +15,7 @@ function HomeContainer() {
   const [events, setEvents] = useState([]);
   const [cities, setCities] = useState([]);
   const [filters, setFilters] = useState(defaultFilters);
+  const [pageCount, setPageCount] = useState(0);
 
   const location = useLocation();
 
@@ -26,13 +27,15 @@ function HomeContainer() {
   const dateFrom = params.get("dateFrom");
   const dateTo = params.get("dateTo");
   const city = params.get("city");
+  const currentPage = params.get("currentPage");
 
   const fetchEvents = async (
     eventType,
     searchParam,
     dateFrom,
     dateTo,
-    city
+    city,
+    currentPage
   ) => {
     try {
       const response = await EventService.getAllEvents(
@@ -40,9 +43,11 @@ function HomeContainer() {
         searchParam,
         dateFrom,
         dateTo,
-        city
+        city,
+        currentPage - 1
       );
       setEvents(response.data.events);
+      setPageCount(response.data.pageCount);
     } catch (e) {
       console.error(e);
     }
@@ -101,7 +106,8 @@ function HomeContainer() {
       searchParam === null ? "" : searchParam,
       dateFrom === null ? "" : dateFrom,
       dateTo === null ? "" : dateTo,
-      city === null ? "" : city
+      city === null ? "" : city,
+      currentPage === null ? 1 : currentPage
     );
     fetchCities();
   }, [location.search]);
@@ -146,7 +152,11 @@ function HomeContainer() {
           </button>
         </form>
       </div>
-      <Events eventsList={events} deleteEvent={deleteEvent} />
+      <Events
+        eventsList={events}
+        deleteEvent={deleteEvent}
+        pageCount={pageCount}
+      />
     </div>
   );
 }
