@@ -14,6 +14,8 @@ function PaymentComponent(props) {
 
   const [clientSecret, setClientSecret] = useState("");
 
+  let bookedSeats;
+
   const items = {
     items: props.tickets.tickets,
     eventId: props.tickets.eventId,
@@ -37,7 +39,7 @@ function PaymentComponent(props) {
       holdToken: holdToken.holdToken,
     };
 
-    EventService.bookSeats(props.tickets.eventId, paymentData);
+    return EventService.bookSeats(props.tickets.eventId, paymentData);
   };
 
   const getNumberByCategories = (objects) => {
@@ -69,16 +71,26 @@ function PaymentComponent(props) {
     return EventService.bookBestAvailable(props.tickets.eventId, paymentData);
   };
 
+  const sendMail = async (data) => {
+    await EventService.sendMail(props.tickets.eventId, data);
+  };
+
   const createPayment = async (paymentData) => {
     try {
       const response = await PaymentService.createPayment(paymentData);
       if (response.data.status == "succeeded") {
         if (props.bookMode == "bestAvailable") {
-          await bookBestAvailable();
+          const resp = await bookBestAvailable();
+          bookedSeats = resp.data;
         } else {
-          await bookSeats();
+          const resp = await bookSeats();
+          bookedSeats = resp.data;
         }
-        navigate("/successPage");
+        console.log("sssssss" + bookedSeats);
+        const mailData = {
+          bookedSeats: bookedSeats,
+        };
+        sendMail(mailData).then((resp) => navigate("/successPage"));
       }
       setClientSecret(response.data.clientSecret);
     } catch {}

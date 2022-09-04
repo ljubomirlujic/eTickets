@@ -11,6 +11,8 @@ function CheckoutForm(props) {
   const stripe = useStripe();
   const elements = useElements();
 
+  console.log(props.tickets);
+
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -68,6 +70,10 @@ function CheckoutForm(props) {
     EventService.releaseSeats(props.tickets.eventId, data);
   };
 
+  const sendMail = async (data) => {
+    await EventService.sendMail(props.tickets.eventId, data);
+  };
+
   useEffect(() => {
     if (!stripe) {
       return;
@@ -111,7 +117,8 @@ function CheckoutForm(props) {
         const resp = await bookBestAvailable();
         response = resp.data;
       } else {
-        await bookSeats();
+        const resp = await bookSeats();
+        response = resp.data;
       }
 
       await stripe
@@ -124,9 +131,11 @@ function CheckoutForm(props) {
         })
         .then((resp) => {
           if (resp["error"] == null) {
-            navigate("/successPage");
+            const mailData = {
+              bookedSeats: response,
+            };
+            sendMail(mailData).then((resp) => navigate("/successPage"));
           } else {
-            console.log(response);
             const releaseData = {
               seats: response,
             };

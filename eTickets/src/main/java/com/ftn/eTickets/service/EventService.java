@@ -120,13 +120,14 @@ public class EventService {
 
 
 
-    public void bookSeats(BookSeatsRequest bookSeatsRequest, String eventId) throws SeatsioException{
+    public List<String> bookSeats(BookSeatsRequest bookSeatsRequest, String eventId) throws SeatsioException{
         Event event = getOne(eventId);
         try {
             client.events.book(event.getEventKey(), bookSeatsRequest.getObjects(), bookSeatsRequest.getHoldToken());
-
+            return bookSeatsRequest.getObjects();
         }catch (SeatsioException e){
             bookWithoutHoldToken(bookSeatsRequest, event);
+            return bookSeatsRequest.getObjects();
         }
 
     }

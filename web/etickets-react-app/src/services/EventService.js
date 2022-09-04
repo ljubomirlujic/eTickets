@@ -13,7 +13,8 @@ export const EventService = {
     bookSeats,
     bookBestAvailable,
     releaseSeats,
-    deleteEvent
+    deleteEvent,
+    sendMail
 
 }
 
@@ -55,7 +56,7 @@ async function deleteEvent(id) {
 
 
 async function bookSeats(eventId, objects) {
-    return await AxiosClient.put(baseURL + `/event/${eventId}/bookSeats`, objects);
+    return await AxiosClient.post(baseURL + `/event/${eventId}/bookSeats`, objects);
 }
 
 async function bookBestAvailable(eventId, objects) {
@@ -64,4 +65,8 @@ async function bookBestAvailable(eventId, objects) {
 
 async function releaseSeats(eventId, objects) {
     return await AxiosClient.post(baseURL + `/${eventId}/releaseSeats`, objects);
+}
+
+async function sendMail(eventId, objects) {
+    return await AxiosClient.post(baseURL + `/${eventId}/sendMail`, objects);
 }

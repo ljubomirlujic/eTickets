@@ -2,12 +2,18 @@ package com.ftn.eTickets.web.controller;
 
 import com.ftn.eTickets.exceptions.BadRequestException;
 import com.ftn.eTickets.exceptions.NotFoundException;
+import com.ftn.eTickets.service.EmailService;
 import com.ftn.eTickets.service.EventService;
+import com.ftn.eTickets.service.PDFTicketGenerator;
 import com.ftn.eTickets.web.dto.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import seatsio.SeatsioException;
@@ -24,6 +30,9 @@ public class EventController {
 
     private final EventService eventService;
 
+    @Autowired
+    private EmailService emailService;
+
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
@@ -39,6 +48,18 @@ public class EventController {
                                  @RequestParam(defaultValue = "0") Integer page){
         RespPageableEventDto responseEvents = eventService.findAll(eventType, searchParam, dateFrom, dateTo, city, page);
         return new ResponseEntity(responseEvents, HttpStatus.OK);
+
+    }
+
+    @PostMapping("/{eventId}/sendMail")
+    public ResponseEntity test(Authentication authentication, @RequestBody SendMailTicketsReq sendMailTicketsReq,
+                               @PathVariable String eventId) {
+        try {
+            emailService.sendEmail(authentication, sendMailTicketsReq, eventId);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
 
     }
 
@@ -105,11 +126,11 @@ public class EventController {
 
     }
 
-    @PutMapping("/event/{eventId}/bookSeats")
+    @PostMapping("/event/{eventId}/bookSeats")
     public ResponseEntity bookSeats(@RequestBody BookSeatsRequest bookSeatsRequest, @PathVariable String eventId){
         try{
-            eventService.bookSeats(bookSeatsRequest, eventId);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            List<String> bookedSeats = eventService.bookSeats(bookSeatsRequest, eventId);
+            return new ResponseEntity(bookedSeats, HttpStatus.OK);
         }catch (SeatsioException e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -126,7 +147,7 @@ public class EventController {
     }
 
     @PostMapping("/{eventId}/releaseSeats")
-    public ResponseEntity bookBestAvailable(@RequestBody ReleaseSeatsReq releaseSeatsReq, @PathVariable String eventId){
+    public ResponseEntity releaseSeats(@RequestBody ReleaseSeatsReq releaseSeatsReq, @PathVariable String eventId){
         try{
              eventService.releaseSeats(releaseSeatsReq, eventId);
             return new ResponseEntity(HttpStatus.OK);
